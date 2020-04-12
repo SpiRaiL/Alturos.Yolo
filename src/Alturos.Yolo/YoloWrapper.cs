@@ -209,7 +209,8 @@ namespace Alturos.Yolo
         {
             if (!this._imageAnalyzer.IsValidImageFormat(imageData))
             {
-                throw new Exception("Invalid image data, wrong image format");
+                string bytes = "";//" { " + imageData[0] + "," + imageData[1] + "," + imageData[2] + "," + imageData[3] + "}";
+                throw new Exception("Invalid image data, wrong image format: " + bytes);
             }
 
             var container = new BboxContainer();
