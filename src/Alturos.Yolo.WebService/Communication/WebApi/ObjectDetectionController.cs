@@ -1,6 +1,9 @@
 ﻿using Alturos.Yolo.Model;
 using Alturos.Yolo.WebService.Contract;
 using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -21,7 +24,6 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
         /// </summary>
         /// <param name="imageData">Image data</param>
         /// <returns></returns>
-        /*
         [HttpPost]
         [Route("Detect")]
         [ResponseType(typeof(YoloItem[]))]
@@ -42,25 +44,28 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
                 return InternalServerError(exception);
             }
         }
-        */
 
+        /// <summary>
+        ///  Upload image as multi-part data 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
-        [Route("DetectBase64")]
+        [Route("Upload")]
         [ResponseType(typeof(YoloItem[]))]
-        public IHttpActionResult Detect(string imageData)
+        public async Task<IHttpActionResult> Detect()
         {
+            HttpRequestMessage httpRequest = this.Request;
+            var provider = new MultipartMemoryStreamProvider();
+            await Request.Content.ReadAsMultipartAsync(provider);
+            var file = provider.Contents[0];
+            var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+            var imageData = await file.ReadAsByteArrayAsync();
+            //Do whatever you want with filename and its binary data.
 
             try
             {
-                                               
-                if (imageData == null)
-                {
-                    throw new Exception("wtf Image data is null");
-                }
-                string base64 = imageData.Replace('-', '+').Replace('_', '/'); 
-                byte[] binData = Convert.FromBase64String(base64);
 
-                var items = this._objectDetection.Detect(binData);
+                var items = this._objectDetection.Detect(imageData);
                 return Ok(items);
             }
             catch (Exception exception)
@@ -74,7 +79,7 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
         /// </summary>
         /// <param name="filePath">local file path</param>
         /// <returns></returns>
-        /*
+        
         [HttpPost]
         [Route("DetectLocalPath")]
         [ResponseType(typeof(YoloItem[]))]
@@ -90,6 +95,6 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
                 return InternalServerError(exception);
             }
         }
-        */
+        
     }
 }
