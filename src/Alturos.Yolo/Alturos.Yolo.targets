@@ -9,6 +9,10 @@
       <Link>yolo_cpp_dll_cpu.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+	  <None Include="$(MSBuildThisFileDirectory)/../runtimes/win-x64/native/yolo_cpp_dll_new_cpu.dll">
+		  <Link>yolo_cpp_dll_new_cpu.dll</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
     <None Include="$(MSBuildThisFileDirectory)/../runtimes/win-x64/native/yolo_cpp_dll_gpu.dll">
       <Link>yolo_cpp_dll_gpu.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

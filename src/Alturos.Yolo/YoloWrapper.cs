@@ -11,7 +11,8 @@ namespace Alturos.Yolo
     public class YoloWrapper : IDisposable
     {
         public const int MaxObjects = 1000;
-        private const string YoloLibraryCpu = "yolo_cpp_dll_cpu";
+        //private const string YoloLibraryCpu = "yolo_cpp_dll_cpu";
+        private const string YoloLibraryCpu = "yolo_cpp_dll_new_cpu";
         private const string YoloLibraryGpu = "yolo_cpp_dll_gpu";
 
         private readonly ImageAnalyzer _imageAnalyzer = new ImageAnalyzer();
@@ -21,15 +22,18 @@ namespace Alturos.Yolo
         public DetectionSystem DetectionSystem { get; private set; } = DetectionSystem.Unknown;
 
         #region DllImport Cpu
+        //[DllImport(YoloLibraryCpu, EntryPoint = "Detector")]
+        //private extern Detector detector;
 
         [DllImport(YoloLibraryCpu, EntryPoint = "init")]
         private static extern int InitializeYoloCpu(string configurationFilename, string weightsFilename, int gpuIndex);
 
         [DllImport(YoloLibraryCpu, EntryPoint = "detect_image")]
-        internal static extern int DetectImageCpu(string filename, ref BboxContainer container);
+        internal static extern int DetectImageCpu(string filename, ref BboxContainer container, float thresh = 0.2f);
+            
 
         [DllImport(YoloLibraryCpu, EntryPoint = "detect_mat")]
-        internal static extern int DetectImageCpu(IntPtr pArray, int nSize, ref BboxContainer container);
+        internal static extern int DetectImageCpu(IntPtr pArray, int nSize, ref BboxContainer container, float thresh = 0.2f);
 
         [DllImport(YoloLibraryCpu, EntryPoint = "dispose")]
         internal static extern int DisposeYoloCpu();
@@ -136,7 +140,7 @@ namespace Alturos.Yolo
                 if (!systemReport.CudnnExists)
                 {
                     throw new YoloInitializeException("Cudnn not found");
-                }
+                } 
 
                 var deviceCount = GetDeviceCount();
                 if (deviceCount == 0)
@@ -224,7 +228,7 @@ namespace Alturos.Yolo
                 switch (this.DetectionSystem)
                 {
                     case DetectionSystem.CPU:
-                        count = DetectImageCpu(pnt, imageData.Length, ref container);
+                        count = DetectImageCpu(pnt, imageData.Length, ref container, 0.0001f);
                         break;
                     case DetectionSystem.GPU:
                         count = DetectImageGpu(pnt, imageData.Length, ref container);

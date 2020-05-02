@@ -31,6 +31,10 @@
 
   <!-- Only for current solution, copy files to x64 folder -->
   <ItemGroup Condition="'$(OS)' != 'Unix'">
+	  <ContentWithTargetPath Include="dependencies/win/opencv_world343.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <TargetPath>opencv_world343.dll</TargetPath>
+	  </ContentWithTargetPath>
     <ContentWithTargetPath Include="dependencies/win/opencv_world411.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>opencv_world411.dll</TargetPath>
@@ -39,6 +43,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>yolo_cpp_dll_cpu.dll</TargetPath>
     </ContentWithTargetPath>
+	  <ContentWithTargetPath Include="dependencies/win/yolo_cpp_dll_new_cpu.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <TargetPath>yolo_cpp_dll_new_cpu.dll</TargetPath>
+	  </ContentWithTargetPath>
     <ContentWithTargetPath Include="dependencies/win/yolo_cpp_dll_gpu.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>yolo_cpp_dll_gpu.dll</TargetPath>
@@ -62,6 +70,7 @@
       <TargetPath>x64/yolo_cpp_dll_cpu.so</TargetPath>
     </ContentWithTargetPath>
   </ItemGroup>
+ 
 
   <!-- Required to copy files into the nuget package -->
   <ItemGroup>
@@ -69,10 +78,18 @@
       <PackagePath>runtimes/win-x64/native/opencv_world411.dll</PackagePath>
       <PackageCopyToOutput>true</PackageCopyToOutput>
     </Content>
-    <Content Include="dependencies/win/yolo_cpp_dll_cpu.dll">
-      <PackagePath>runtimes/win-x64/native/yolo_cpp_dll_cpu.dll</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </Content>
+	  <Content Include="dependencies/win/opencv_world343.dll">
+		  <PackagePath>runtimes/win-x64/native/opencv_world343.dll</PackagePath>
+		  <PackageCopyToOutput>true</PackageCopyToOutput>
+	  </Content>
+	<Content Include="dependencies/win/yolo_cpp_dll_cpu.dll">
+	    <PackagePath>runtimes/win-x64/native/yolo_cpp_dll_cpu.dll</PackagePath>
+		    <PackageCopyToOutput>true</PackageCopyToOutput>
+	</Content>
+	  <Content Include="dependencies/win/yolo_cpp_dll_new_cpu.dll">
+		  <PackagePath>runtimes/win-x64/native/yolo_cpp_dll_new_cpu.dll</PackagePath>
+		  <PackageCopyToOutput>true</PackageCopyToOutput>
+	  </Content>
     <Content Include="dependencies/win/yolo_cpp_dll_gpu.dll">
       <PackagePath>runtimes/win-x64/native/yolo_cpp_dll_gpu.dll</PackagePath>
       <PackageCopyToOutput>true</PackageCopyToOutput>

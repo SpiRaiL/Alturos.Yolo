@@ -11,7 +11,9 @@ namespace Alturos.Yolo.WebService.Contract
         public YoloObjectDetection()
         {
             var configurationDetector = new YoloConfigurationDetector();
-            var configuration = configurationDetector.Detect();
+            //var configuration = configurationDetector.Detect("..\\..\\..\\..\\src\\test\\yoloconfig\\yolov3");
+            var configuration = configurationDetector.Detect("..\\..\\..\\..\\src\\test\\yoloconfig\\giraffe");
+            
             this._yoloWrapper = new YoloWrapper(configuration);
         }
 
